@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html>
-	<%= button_to "Generate Data", root_path , method: :post %>
+	<label for="URL">URL for data generation</label>
+
+	<%= text_field_tag('url', '', size: 25) %>
+
+	<input type="text" id="URL" name="URL" size="25">
+
+	<br>
+
+	<label for="generation_rate">Data Generation Rate</label>
+
+	<input type="number" id="generation_rate" name="generation_rate">
+
+	<br><br><br><br>
+
+
+
+	<%= button_to "Generate Data", root_path , method: :post , params: {url='url'} %>
 
 	<%= button_to "Stop Generating Data", root_path , method: :delete %>
 

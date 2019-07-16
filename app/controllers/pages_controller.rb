@@ -23,13 +23,14 @@ class PagesController < ApplicationController
 
       while $generate do
         for type in sensorTypes do
-          uri = URI("http://localhost:3000/sensors/" + type)
+          
+          uri = URI(params[:url] + type)
           res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => (1.0 + rand(400)/100.0), 'id' => 1)
           puts res
         end
         puts ''
 
-        sleep(5)
+        sleep(params[:rate])
       end
     }
 

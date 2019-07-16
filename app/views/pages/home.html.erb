@@ -1,22 +1,15 @@
 <!DOCTYPE html>
 <html>
-	<label for="URL">URL for data generation</label>
+	<!-- TODO grey out submit button while generating, until stop generating button is pushed -->
+	<%= form_tag( root_path , method: :post) do %>  
+		<%= label_tag(:url, "URL:") %>
+		<%= text_field_tag(:url) %> <br>
 
-	<%= text_field_tag('url', '', size: 25) %>
+		<%= label_tag(:rate, "Data Generation Rate:") %>
+		<%= text_field_tag(:rate) %> <br>
 
-	<input type="text" id="URL" name="URL" size="25">
-
-	<br>
-
-	<label for="generation_rate">Data Generation Rate</label>
-
-	<input type="number" id="generation_rate" name="generation_rate">
-
-	<br><br><br><br>
-
-
-
-	<%= button_to "Generate Data", root_path , method: :post , params: {url='url'} %>
+		<%= submit_tag("Generate Data") %>
+	<% end %> <br>
 
 	<%= button_to "Stop Generating Data", root_path , method: :delete %>
 

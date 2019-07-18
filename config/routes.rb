@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root 'pages#home'
   post '/', to: 'pages#generate_data'
-  delete '/', to: 'pages#stop_generating_data'
+  patch '/', to: 'pages#stop_generating_data'
   
   #resources :pages do
   #  collection do

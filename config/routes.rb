@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   root 'pages#home'
   post '/', to: 'pages#generate_data'
   patch '/', to: 'pages#stop_generating_data'

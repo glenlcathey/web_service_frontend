@@ -17,15 +17,6 @@ class PagesController < ApplicationController
       params[:generation_rate] = 3
     end
 
-    #move passed parameters into an array
-
-    #determine what fields have been left blank
-    
-      
-    
-
-
-
     if $generate == true then
       return                         #ensures only one generation thread running at a time
     end
@@ -35,6 +26,7 @@ class PagesController < ApplicationController
     generate_data = Thread.new {
 
       require 'net/http'
+      require 'date'
 
       sensorTypes = ["flow_rate", "discharge_elevation", "discharge_pressure", "suction_pressure", "tank_fluid_surface_elevation", "tank_gas_overpressure", "motor_power"]
 
@@ -130,8 +122,30 @@ class PagesController < ApplicationController
     $generate = false
   end
 
-  #def delete_data
-  #end
+  def delete_data
+    require 'net/http'
+    require 'date'
+
+    if params[:url] == "" then
+      params[:url] = "http://localhost:3000/sensors/"
+    end
+    
+    sensorTypes = ["flow_rate", "discharge_elevation", "discharge_pressure", "suction_pressure", "tank_fluid_surface_elevation", "tank_gas_overpressure"]
+
+    for type in sensorTypes do
+      uri = URI(params[:url] + type)
+      params = { :since => Date.today.prev_day, :id => 1}
+      uri.query = URI.encode_www_form(params)
+
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = false
+
+      req = Net::HTTP::Delete.new(uri.path + "?" + uri.query)
+      res = http.request(req)
+
+      puts res
+    end
+  end
 
   
 

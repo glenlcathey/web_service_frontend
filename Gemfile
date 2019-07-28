@@ -19,6 +19,8 @@ end
 
 gem 'pg'
 
+gem 'sshkey'
+
 gem 'devise'
 
 # Use Puma as the app server

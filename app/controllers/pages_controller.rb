@@ -1,6 +1,8 @@
 class PagesController < ApplicationController
   include ActionController::UrlFor
 
+  before_action :authenticate_user!
+
   $generate
 
   def home

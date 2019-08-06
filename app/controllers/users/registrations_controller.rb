@@ -5,14 +5,28 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
-  # def new
-  #   super
-  # end
+  def new
+    super do 
+      require 'net/http'
+      require 'date'
+
+      k = SSHKEY.generate
+
+      k.randomart
+
+      #TODO add the key to a table in the frontend
+      Key.create(:sshkey => k.ssh_public_key, :email => params[:username])
+
+      uri = URI(localhost:3000/user)
+      res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'userName' => params[:email], 'keyObject' => k)
+      puts res
+    end
+  end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+   #def create
+   #  
+   #end
 
   # GET /resource/edit
   # def edit

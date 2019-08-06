@@ -42,7 +42,7 @@
 		<%= number_field_tag(:motor_power_1, nil, step: 0.01) %>
 		<%= number_field_tag(:motor_power_2, nil, step: 0.01) %> <br>
 
-		<%= submit_tag("Generate Data", data: { data_disable_with: "Stop Generating Data.."} ) %>
+		<%= submit_tag("Generate Data") %>
 	<% end %> <br>
 
 	<%= button_to "Stop Generating Data", authenticated_root_path , method: :patch %> <br>
@@ -53,6 +53,8 @@
 
 		<%= submit_tag("Delete Data") %>
 	<% end %> <br>
+
+	<%= button_to "Logout", destroy_user_session_path , method: :delete %> 
 
 	
 

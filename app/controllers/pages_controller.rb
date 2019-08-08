@@ -149,6 +149,8 @@ class PagesController < ApplicationController
     end
   end
 
-  
+  def create_device
+    puts "balls"
+  end
 
 end

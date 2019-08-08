@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       post '/', to: 'pages#generate_data'
       patch '/', to: 'pages#stop_generating_data'
       delete '/', to: 'pages#delete_data'
+      post '/', to: 'pages#create_device', as: :create_device
     end
   
     unauthenticated do

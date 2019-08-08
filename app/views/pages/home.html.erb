@@ -54,6 +54,8 @@
 		<%= submit_tag("Delete Data") %>
 	<% end %> <br>
 
+	<%= button_to "Generate New Device Key", create_device_path , method: :post %>
+
 	<%= button_to "Logout", destroy_user_session_path , method: :delete %> 
 
 	

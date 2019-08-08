@@ -5,28 +5,33 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
-  def new
+  #def new
+  #  
+  #end
+
+  # POST /resource
+  def create
     super do 
       require 'net/http'
       require 'date'
 
-      k = SSHKEY.generate
+      k = SSHKey.generate
 
       k.randomart
 
       #TODO add the key to a table in the frontend
-      Key.create(:sshkey => k.ssh_public_key, :email => params[:username])
+      begin
+        Key.create(:sshkey => k.ssh_public_key, :email => params[:user][:email])
+        rescue Exception 
+          String exception = "------>   Email not unique, record not committed!"
+          puts exception
+      end
 
-      uri = URI(localhost:3000/user)
-      res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'userName' => params[:email], 'keyObject' => k)
+      uri = URI('http://localhost:3000/user/')
+      res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'userName' => params[:user][:email], 'keyObject' => k)
       puts res
     end
   end
-
-  # POST /resource
-   #def create
-   #  
-   #end
 
   # GET /resource/edit
   # def edit

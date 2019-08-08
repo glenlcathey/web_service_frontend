@@ -6,5 +6,6 @@ class CreateKeys < ActiveRecord::Migration[5.1]
 
       t.timestamps
     end
+    add_index :keys, :email, unique: true
   end
 end

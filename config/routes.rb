@@ -7,10 +7,11 @@ Rails.application.routes.draw do
   devise_scope :user do
     authenticated :user do
       root 'pages#home', as: :authenticated_root
+      post '/', to: 'pages#create_device'
       post '/', to: 'pages#generate_data'
       patch '/', to: 'pages#stop_generating_data'
       delete '/', to: 'pages#delete_data'
-      post '/', to: 'pages#create_device', as: :create_device
+      get '/pages/:id', to: 'pages#show', as: 'sensor'
     end
   
     unauthenticated do

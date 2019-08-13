@@ -1,8 +1,16 @@
 <!DOCTYPE html>
 <html>
-	<!-- TODO grey out submit button while generating, until stop generating button is pushed -->
 	<!-- TODO name the default Parameters if left blank -->
+	<%= arr = device_array; nil %>
+	<% if !arr.empty? then %>
+		<%= arr.each do |device| %>
+			<%= button_to(device.getName, '/') %>
+		<% end %>
+	<% end %>
 
+	
+	
+	
 	<%= form_tag( authenticated_root_path , method: :post) do %>  
 		<%= label_tag(:url, "URL:") %>
 		<%= text_field_tag(:url) %> <br>
@@ -54,7 +62,10 @@
 		<%= submit_tag("Delete Data") %>
 	<% end %> <br>
 
-	<%= button_to "Generate New Device Key", create_device_path , method: :post %>
+	<%= form_tag( authenticated_root_path , method: :post) do %>
+		<%= text_field_tag(:device_name, nil, placeholder: 'Device name..') %>
+		<%= submit_tag("Generate New Device Key") %>
+	<% end %> <br>
 
 	<%= button_to "Logout", destroy_user_session_path , method: :delete %> 
 

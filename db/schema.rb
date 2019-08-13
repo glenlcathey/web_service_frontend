@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190808014522) do
+ActiveRecord::Schema.define(version: 20190811224352) do
+
+  create_table "devices", force: :cascade do |t|
+    t.string "email"
+    t.string "sshkey"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sshkey"], name: "index_devices_on_sshkey", unique: true
+  end
 
   create_table "keys", force: :cascade do |t|
     t.string "email"

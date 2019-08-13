@@ -5,11 +5,14 @@ class PagesController < ApplicationController
 
   $generate
 
+  def show
+    @device = Device.find(params[:id])
+  end
+
   def home
   end
 
   def generate_data
-
     #setup data generation based on what fields have been filled in the view
     if params[:url] == "" then
       params[:url] = "http://localhost:3000/sensors/"
@@ -150,7 +153,17 @@ class PagesController < ApplicationController
   end
 
   def create_device
-    puts "balls"
+    require 'net/http'
+
+    k = SSHKey.generate
+    if params[:device_name] == "" then
+      params[:device_name] = "default"
+    end
+    Device.create(:email => current_user.email, :sshkey => k.ssh_public_key, :name => params[:device_name])
+
+    uri = URI('http://localhost:3000/user/device')
+    res = Net::HTTP.post_form(uri, 'email' => current_user.email, 'sshkey' => k.ssh_public_key, 'name' => params[:device_name])
+    puts res
   end
 
 end

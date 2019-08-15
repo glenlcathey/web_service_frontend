@@ -6,10 +6,11 @@ class Sensor
         ""
     end
 
-    def initialize(name, key, email)
+    def initialize(name, key, email, id)
         @name = name
         @key = key
         @email = email
+        @id = id
     end
 
     def getName
@@ -22,6 +23,10 @@ class Sensor
     
     def getEmail
         return @email
+    end
+
+    def getId
+        return @id
     end
 end
 

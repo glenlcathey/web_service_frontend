@@ -4,10 +4,10 @@ class PagesController < ApplicationController
   before_action :authenticate_user!
 
   $generate
+  $thread_array = []
+  $boolean_array = []
 
-  def show
-    @device = Device.find(params[:id])
-  end
+
 
   def home
   end
@@ -22,96 +22,100 @@ class PagesController < ApplicationController
       params[:generation_rate] = 3
     end
 
-    if $generate == true then
+    if $boolean_array[params[:id].to_i] == true then
       return                         #ensures only one generation thread running at a time
     end
+    
+    if params[:mimir_id] == ""
+      params[:mimir_id] = params[:id]
+    end
 
-    $generate = true
+    $boolean_array[params[:id].to_i] = true
 
-    generate_data = Thread.new {
+    $thread_array[params[:id].to_i] = Thread.new {
 
       require 'net/http'
       require 'date'
 
       sensorTypes = ["flow_rate", "discharge_elevation", "discharge_pressure", "suction_pressure", "tank_fluid_surface_elevation", "tank_gas_overpressure", "motor_power"]
 
-      while $generate do
+      while $boolean_array[params[:id].to_i] do
 
         if params[:flow_rate_1] == "" then
           uri = URI(params[:url] + "flow_rate")
-          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => (1.0 + rand(400)/100.0), 'id' => 1)
+          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => (1.0 + rand(400)/100.0), 'id' => params[:mimir_id])
           puts res
         else
           #temp_num = (params[:flow_rate_1].to_f + rand( ( params[:flow_rate_2] ).to_f - ( params[:flow_rate_1] ).to_f ))
           temp_num = rand(params[:flow_rate_1].to_f..params[:flow_rate_2].to_f)
           uri = URI(params[:url] + "flow_rate")
-          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => temp_num, 'id' => 1)
+          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => temp_num, 'id' => params[:mimir_id])
           puts res
         end
 
         if params[:discharge_elevation_1] == "" then
           uri = URI(params[:url] + "discharge_elevation")
-          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => (1.0 + rand(400)/100.0), 'id' => 1)
+          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => (1.0 + rand(400)/100.0), 'id' => params[:mimir_id])
           puts res
         else
           temp_num = rand(params[:discharge_elevation_1].to_f..params[:discharge_elevation_2].to_f)
           uri = URI(params[:url] + "discharge_elevation")
-          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => temp_num, 'id' => 1)
+          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => temp_num, 'id' => params[:mimir_id])
           puts res
         end
 
         if params[:discharge_pressure_1] == "" then
           uri = URI(params[:url] + "discharge_pressure")
-          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => (1.0 + rand(400)/100.0), 'id' => 1)
+          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => (1.0 + rand(400)/100.0), 'id' => params[:mimir_id])
           puts res
         else
           temp_num = rand(params[:discharge_pressure_1].to_f..params[:discharge_pressure_2].to_f)
           uri = URI(params[:url] + "discharge_pressure")
-          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => temp_num, 'id' => 1)
+          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => temp_num, 'id' => params[:mimir_id])
           puts res
         end
 
         if params[:suction_pressure_1] == "" then
           uri = URI(params[:url] + "suction_pressure")
-          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => (1.0 + rand(400)/100.0), 'id' => 1)
+          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => (1.0 + rand(400)/100.0), 'id' => params[:mimir_id])
           puts res
         else
           temp_num = rand(params[:suction_pressure_1].to_f..params[:suction_pressure_2].to_f)
           uri = URI(params[:url] + "suction_pressure")
-          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => temp_num, 'id' => 1)
+          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => temp_num, 'id' => params[:mimir_id])
           puts res
         end
 
         if params[:tank_fluid_surface_elevation_1] == "" then
           uri = URI(params[:url] + "tank_fluid_surface_elevation")
-          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => (1.0 + rand(400)/100.0), 'id' => 1)
+          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => (1.0 + rand(400)/100.0), 'id' => params[:mimir_id])
           puts res
         else
           temp_num = rand(params[:tank_fluid_surface_elevation_1].to_f..params[:tank_fluid_surface_elevation_2].to_f)
           uri = URI(params[:url] + "tank_fluid_surface_elevation")
-          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => temp_num, 'id' => 1)
+          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => temp_num, 'id' => params[:mimir_id])
           puts res
         end
 
         if params[:tank_gas_overpressure_1] == "" then
           uri = URI(params[:url] + "tank_gas_overpressure")
-          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => (1.0 + rand(400)/100.0), 'id' => 1)
+          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => (1.0 + rand(400)/100.0), 'id' => params[:mimir_id])
           puts res
         else
           temp_num = rand(params[:tank_gas_overpressure_1].to_f..params[:tank_gas_overpressure_2].to_f)
           uri = URI(params[:url] + "tank_gas_overpressure")
-          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => temp_num, 'id' => 1)
+          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => temp_num, 'id' => params[:mimir_id])
           puts res
         end
 
         if params[:motor_power_1] == "" then
           uri = URI(params[:url] + "motor_power")
-          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => (1.0 + rand(400)/100.0), 'id' => 1)
+          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => (1.0 + rand(400)/100.0), 'id' => params[:mimir_id])
           puts res
         else
           temp_num = rand(params[:motor_power_1].to_f..params[:motor_power_2].to_f)
           uri = URI(params[:url] + "motor_power")
-          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => temp_num, 'id' => 1)
+          res = Net::HTTP.post_form(uri, 'timestamp' => Time.now, 'sensorReading' => temp_num, 'id' => params[:mimir_id])
           puts res
         end
 
@@ -124,7 +128,7 @@ class PagesController < ApplicationController
   end
 
   def stop_generating_data
-    $generate = false
+    $boolean_array[params[:id].to_i] = false
   end
 
   def delete_data

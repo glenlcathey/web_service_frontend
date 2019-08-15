@@ -4,63 +4,10 @@
 	<%= arr = device_array; nil %>
 	<% if !arr.empty? then %>
 		<%= arr.each do |device| %>
-			<%= button_to(device.getName, '/') %>
+			<%= button_to(device.getName, sensor_path(device.getId), method: :get) %>
 		<% end %>
 	<% end %>
 
-	
-	
-	
-	<%= form_tag( authenticated_root_path , method: :post) do %>  
-		<%= label_tag(:url, "URL:") %>
-		<%= text_field_tag(:url) %> <br>
-
-		<%= label_tag(:generation_rate, "Data Generation Rate:") %>
-		<%= text_field_tag(:generation_rate) %> <br>
-		
-		<p>
-		Parameters:
-		</p>
-
-		<%= label_tag(:flow_rate, "Flow Rate:") %>
-		<%= number_field_tag(:flow_rate_1, nil, step: 0.01 ) %> 
-		<%= number_field_tag(:flow_rate_2, nil, step: 0.01) %> <br>
-
-		<%= label_tag(:discharge_elevation, "Discharge Elevation:") %>
-		<%= number_field_tag(:discharge_elevation_1, nil, step: 0.01) %> 
-		<%= number_field_tag(:discharge_elevation_2, nil, step: 0.01) %><br>
-
-		<%= label_tag(:discharge_pressure, "Discharge Pressure:") %>
-		<%= number_field_tag(:discharge_pressure_1, nil, step: 0.01) %> 
-		<%= number_field_tag(:discharge_pressure_2, nil, step: 0.01) %> <br>
-
-		<%= label_tag(:suction_pressure, "Suction Pressure:") %>
-		<%= number_field_tag(:suction_pressure_1, nil, step: 0.01) %>
-		<%= number_field_tag(:suction_pressure_2, nil, step: 0.01) %> <br>
-
-		<%= label_tag(:tank_fluid_surface_elevation, "Tank Fluid Surface Elevation:") %>
-		<%= number_field_tag(:tank_fluid_surface_elevation_1, nil, step: 0.01) %>
-		<%= number_field_tag(:tank_fluid_surface_elevation_2, nil, step: 0.01) %> <br>
-
-		<%= label_tag(:tank_gas_overpressure, "Tank Gas Overpressure:") %>
-		<%= number_field_tag(:tank_gas_overpressure_1, nil, step: 0.01) %>
-		<%= number_field_tag(:tank_gas_overpressure_2, nil, step: 0.01) %> <br>
-
-		<%= label_tag(:motor_power, "Motor Power:") %>
-		<%= number_field_tag(:motor_power_1, nil, step: 0.01) %>
-		<%= number_field_tag(:motor_power_2, nil, step: 0.01) %> <br>
-
-		<%= submit_tag("Generate Data") %>
-	<% end %> <br>
-
-	<%= button_to "Stop Generating Data", authenticated_root_path , method: :patch %> <br>
-
-	<%= form_tag( authenticated_root_path , method: :delete ) do %>
-		<%= label_tag(:url, "URL:") %>
-		<%= text_field_tag(:url) %>
-
-		<%= submit_tag("Delete Data") %>
-	<% end %> <br>
 
 	<%= form_tag( authenticated_root_path , method: :post) do %>
 		<%= text_field_tag(:device_name, nil, placeholder: 'Device name..') %>
@@ -69,9 +16,5 @@
 
 	<%= button_to "Logout", destroy_user_session_path , method: :delete %> 
 
-	
-
-	
-	
 </html>
 

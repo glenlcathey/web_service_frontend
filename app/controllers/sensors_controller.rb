@@ -4,5 +4,5 @@ class SensorsController < ApplicationController
     before_action :authenticate_user!
 
     def show
-        @device = Device.find(params[:id])
+        @sensor = Device.find(params[:id])
     end

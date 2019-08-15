@@ -1,5 +1,4 @@
 <!DOCTYPE html>
 <html>
-    <%= sleep(3) %>
-    <%= controller.redirect_to '/' %>
+    <%= controller.redirect_to sensor_path(params[:id]) %>
 </html>
